@@ -37,7 +37,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # Lints
   flutter_lints: 6.0.0
+  netglade_analysis: 21.0.0
 
 flutter:
   uses-material-design: true

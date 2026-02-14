@@ -60,7 +60,7 @@ class LocalStorageService {
       final jsonMap = (jsonDecode(jsonString)) as Map<String, dynamic>;
       return fromJson(jsonMap);
     } on Exception catch (_) {
-      Flogger.e("Failed to retrieve object from shared preferences for key: $key");
+      Flogger.e('Failed to retrieve object from shared preferences for key: $key');
       return null;
     }
   }

@@ -1,1 +1,20 @@
-include: package:flutter_lints/flutter.yaml
+include: package:netglade_analysis/lints.yaml
+
+analyzer:
+  exclude:
+    - '**.g.dart'
+    - '**.gen.dart'
+    - '**.config.dart'
+    - '**.graphql.dart'
+  errors:
+    todo: info
+
+formatter:
+  page_width: 120
+  trailing_commas: preserve
+
+linter:
+  rules:
+    sort_pub_dependencies: false
+    require_trailing_commas: false
+    avoid_positional_boolean_parameters: false

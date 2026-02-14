@@ -12,28 +12,28 @@ class BLEService {
   BloodPressureReading? parseBloodPressureData(List<int> data) {
     // Not enough data
     if (data.length < 7) {
-      Flogger.i("Received data is too short to be a valid blood pressure reading.");
+      Flogger.i('Received data is too short to be a valid blood pressure reading.');
       return null;
     }
 
-    Flogger.d("Received Data: $data");
+    Flogger.d('Received Data: $data');
     try {
       // IEEE 11073-20601 Regulatory Certification Data Exchange
       // Byte 0: Flags
-      int flags = data[0];
-      bool isKPa = (flags & 0x01) != 0;
-      bool hasTimestamp = (flags & 0x02) != 0;
-      bool hasPulse = (flags & 0x04) != 0;
+      final flags = data[0];
+      final isKPa = (flags & 0x01) != 0;
+      final hasTimestamp = (flags & 0x02) != 0;
+      final hasPulse = (flags & 0x04) != 0;
 
-      int index = 1;
+      var index = 1;
 
       // Helper for SFLOAT (16-bit)
       double readSFloat() {
-        int raw = data[index] + (data[index + 1] << 8);
+        final raw = data[index] + (data[index + 1] << 8);
         index += 2;
 
-        int mantissa = raw & 0x0FFF;
-        int exponent = raw >> 12;
+        var mantissa = raw & 0x0FFF;
+        var exponent = raw >> 12;
 
         if (exponent >= 0x08) exponent = -((0x0F + 1) - exponent); // signed 4-bit check
         if (mantissa >= 0x0800) mantissa = -((0xFFF + 1) - mantissa); // signed 12-bit check
@@ -42,8 +42,8 @@ class BLEService {
       }
 
       // Reading values
-      double systolic = readSFloat();
-      double diastolic = readSFloat();
+      var systolic = readSFloat();
+      var diastolic = readSFloat();
       readSFloat(); // Mean Arterial Pressure (MAP) - unused but read to advance index
 
       // Convert units if needed (kPa -> mmHg)
@@ -52,15 +52,15 @@ class BLEService {
         diastolic *= 7.50062;
       }
 
-      DateTime timestamp = DateTime.now();
+      var timestamp = DateTime.now();
       if (hasTimestamp) {
         // Year (2 bytes), Month, Day, Hour, Minute, Second
-        int year = data[index] + (data[index + 1] << 8);
-        int month = data[index + 2];
-        int day = data[index + 3];
-        int hour = data[index + 4];
-        int minute = data[index + 5];
-        int second = data[index + 6];
+        final year = data[index] + (data[index + 1] << 8);
+        final month = data[index + 2];
+        final day = data[index + 3];
+        final hour = data[index + 4];
+        final minute = data[index + 5];
+        final second = data[index + 6];
         timestamp = DateTime(year, month, day, hour, minute, second);
         index += 7;
       }
@@ -76,13 +76,12 @@ class BLEService {
         diastolic: diastolic.round(),
         pulse: pulse.round(),
         timestamp: timestamp,
-        synced: false,
       );
 
-      Flogger.d("Received reading: ${reading.systolic}/${reading.diastolic} pulse: ${reading.pulse}");
+      Flogger.d('Received reading: ${reading.systolic}/${reading.diastolic} pulse: ${reading.pulse}');
       return reading;
-    } catch (e) {
-      Flogger.e("Error parsing blood pressure data: $e");
+    } on Exception catch (e) {
+      Flogger.e('Error parsing blood pressure data: $e');
       return null;
     }
   }

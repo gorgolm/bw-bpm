@@ -46,11 +46,11 @@ class BloodPressureReading {
   };
 
   factory BloodPressureReading.fromJson(Map<String, dynamic> json) => BloodPressureReading(
-    id: json['id'],
-    systolic: json['systolic'],
-    diastolic: json['diastolic'],
-    pulse: json['pulse'],
-    timestamp: DateTime.parse(json['timestamp']),
-    synced: json['synced'] ?? false,
+    id: json['id'] as String,
+    systolic: json['systolic'] as int,
+    diastolic: json['diastolic'] as int,
+    pulse: json['pulse'] as int,
+    timestamp: DateTime.parse(json['timestamp'] as String),
+    synced: json['synced'] as bool? ?? false,
   );
 }

@@ -11,12 +11,12 @@ final getIt = GetIt.instance;
 
 Future<void> configureDependencies() async {
   // Services
-  getIt.registerLazySingleton<LocalStorageService>(() => LocalStorageService(preferences: SharedPreferencesAsync()));
-  getIt.registerLazySingleton<BLEService>(() => BLEService(const Uuid()));
-
-  // Cubits
-  getIt.registerFactory<BluetoothStatusCubit>(() => BluetoothStatusCubit());
-  getIt.registerFactory<InternetConnectionStatusCubit>(
-    () => InternetConnectionStatusCubit(internetConnection: InternetConnection()),
-  );
+  getIt
+    ..registerLazySingleton<LocalStorageService>(() => LocalStorageService(preferences: SharedPreferencesAsync()))
+    ..registerLazySingleton<BLEService>(() => BLEService(const Uuid()))
+    // Cubits
+    ..registerFactory<BluetoothStatusCubit>(BluetoothStatusCubit.new)
+    ..registerFactory<InternetConnectionStatusCubit>(
+      () => InternetConnectionStatusCubit(internetConnection: InternetConnection()),
+    );
 }
