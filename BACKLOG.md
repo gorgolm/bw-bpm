@@ -3,9 +3,10 @@
 - [ ] Avoid using magic constants - have a theme config for spaces, font sized and colors
 - [ ] Add localization with text translations instead of hardcoded strings
 - [ ] Add splashscreen with init stuff
-- [ ] Use a better offline storage solution
+- [ ] Use a better offline storage solution - current one is inefficient - hive (or similar) would've been better
 - [ ] Use freezed, equitable or some other code generation for models
 - [ ] Use interface + implementation for services - etc.
+- [ ] Upload the BP readings to an actual API
 
 ## Architecture
 - [ ] **Dependency Injection:** Introduce `get_it` or `riverpod` for better service management.

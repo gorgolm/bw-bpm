@@ -1,7 +1,6 @@
 import 'package:bw_pm/config/di/injection.dart';
 import 'package:bw_pm/cubit/bluetooth_status_cubit.dart';
-import 'package:bw_pm/cubit/internet_connection_status_cubit.dart';
-import 'package:bw_pm/screens/home_screen.dart';
+import 'package:bw_pm/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +12,6 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<BluetoothStatusCubit>(create: (_) => getIt<BluetoothStatusCubit>()),
-        BlocProvider<InternetConnectionStatusCubit>(create: (_) => getIt<InternetConnectionStatusCubit>()),
       ],
       child: MaterialApp(
         title: 'Blood Pressure Monitor',

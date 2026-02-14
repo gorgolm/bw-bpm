@@ -1,7 +1,8 @@
+import 'package:bw_pm/cubit/blood_pressure_cubit.dart';
 import 'package:bw_pm/cubit/bluetooth_status_cubit.dart';
-import 'package:bw_pm/cubit/internet_connection_status_cubit.dart';
 import 'package:bw_pm/services/ble_service.dart';
 import 'package:bw_pm/services/local_storage_service.dart';
+import 'package:bw_pm/services/sync_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,9 +15,17 @@ Future<void> configureDependencies() async {
   getIt
     ..registerLazySingleton<LocalStorageService>(() => LocalStorageService(preferences: SharedPreferencesAsync()))
     ..registerLazySingleton<BLEService>(() => BLEService(const Uuid()))
+    ..registerSingleton<SyncService>(
+      SyncService(localStorage: getIt<LocalStorageService>(), internetConnection: InternetConnection()),
+      dispose: (service) => service.dispose(),
+    )
     // Cubits
     ..registerFactory<BluetoothStatusCubit>(BluetoothStatusCubit.new)
-    ..registerFactory<InternetConnectionStatusCubit>(
-      () => InternetConnectionStatusCubit(internetConnection: InternetConnection()),
+    ..registerFactory<BloodPressureCubit>(
+      () => BloodPressureCubit(
+        syncService: getIt<SyncService>(),
+        bleService: getIt<BLEService>(),
+        localStorage: getIt<LocalStorageService>(),
+      ),
     );
 }
