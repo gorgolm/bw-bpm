@@ -1,3 +1,4 @@
-# bw_pm
+# BindWorks - Blood Pressure PoC
 
-A new Flutter project.
+## Info
+ - Project uses `fvm` for flutter version management and was developed on Flutter 3.38.8
