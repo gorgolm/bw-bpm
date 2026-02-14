@@ -5,6 +5,7 @@
 - [ ] Add splashscreen with init stuff
 - [ ] Use a better offline storage solution
 - [ ] Use freezed, equitable or some other code generation for models
+- [ ] Use interface + implementation for services - etc.
 
 ## Architecture
 - [ ] **Dependency Injection:** Introduce `get_it` or `riverpod` for better service management.
