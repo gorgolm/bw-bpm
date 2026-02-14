@@ -1,25 +1,60 @@
 # Backlog & Improvements
-- [ ] Request permissions at better time
-- [ ] Avoid using magic constants - have a theme config for spaces, font sized and colors
-- [ ] Add localization with text translations instead of hardcoded strings
-- [ ] Add splashscreen with init stuff
-- [ ] Use a better offline storage solution - current one is inefficient - hive (or similar) would've been better
-- [ ] Use freezed, equitable or some other code generation for models
-- [ ] Use interface + implementation for services - etc.
-- [ ] Upload the BP readings to an actual API
+## Permissions and UX
+- [ ] Move BLE permission request to a user action
+	- Add a "Connect device" CTA on the home screen
+	- Trigger permission checks only after the CTA
+	- Show a compact explanation dialog when permissions are denied
+	- Store a flag that permissions were already requested
 
-## Architecture
-- [ ] **Dependency Injection:** Introduce `get_it` or `riverpod` for better service management.
-- [ ] **Repository Pattern:** Abstract Hive implementation behind a clean domain repository interface.
-- [ ] **State Management:** Use BLoC or Riverpod for UI state instead of `setState` and `ValueListenable`.
+## Theming and Design Tokens
+- [ ] Replace magic constants with a theme config
+	- Create spacing, radius, and typography tokens
+	- Centralize colors and semantic styles
+	- Update widgets to consume tokens instead of literals
 
-## Features
-- [ ] **Real Backend:** Replace mock `SyncService` with actual REST/GraphQL client (`dio`).
-- [ ] **User ID Filtering:** Filter BLE readings by specific User ID if multiple people use the same device.
-- [ ] **Pairing UI:** Allow user to specifically select which device to pair with instead of auto-connect to any BP monitor.
-- [ ] **Retry Logic:** Implement `workmanager` for periodic background sync tasks when internet returns.
+## Localization
+- [ ] Add localization with translations
+	- Set up Flutter localization dependencies and config
+	- Extract hardcoded strings to ARB files
+	- Add at least one secondary language
+	- Provide a fallback for missing keys
 
-## Quality Assurance
-- [ ] **Unit Tests:** Test byte parsing logic for BLE.
-- [ ] **Integration Tests:** Test full flow with mocked BLE interface.
-- [ ] **Error Handling:** robust handling of BLE disconnects during transfer.
+## Splash and Bootstrap
+- [ ] Add splash screen with initialization flow
+	- Use native splash or a dedicated Flutter splash screen
+	- Load DI and services before showing home
+	- Add a minimal loading indicator and error state
+
+## Offline Storage
+- [ ] Replace current storage with a more efficient solution
+	- Evaluate Hive or other solutions for offline queue and history
+	- Add a migration path from SharedPreferences
+	- Persist readings with indexes by timestamp
+	- Add clear/purge API for old data
+
+## Models and Codegen
+- [ ] Introduce code generation for models
+	- Pick a tool (freezed, equatable, or similar)
+	- Add JSON serialization support
+	- Update BloodPressureReading and other models
+	- Add copyWith/equals tests
+
+## Service Interfaces
+- [ ] Split services into interfaces and implementations
+	- Define abstract interfaces for BLE, Sync, Storage
+	- Register implementations in DI
+	- Update call sites to depend on interfaces
+
+## Real Sync Backend
+- [ ] Upload BP readings to a real API
+	- Add a REST client (dio or http)
+	- Define DTOs and error handling
+	- Implement retry with backoff
+	- Add tests for happy and failure paths
+
+## Android Background BLE
+- [ ] Validate Android background BLE handling
+	- Follow flutter_blue_plus guidance
+	- Confirm required permissions and foreground service
+	- Add a background-friendly reconnection strategy
+	- Document device-specific caveats
